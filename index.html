@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="GitHub Pages 動作確認用のテスト用静的Webページ">
+    <title>GitHub Pages 動作確認用テストページ</title>
+
+    <style>
+        /* 
+         * GitHub Pages Test Page Baseline Styles
+         * 完全オリジナルCSS / 外部依存なし / モダンレスポンシブデザイン
+         */
+
+        :root {
+            /* カラーパレット定義 */
+            --bg-primary: #f8fafc;
+            --bg-surface: #ffffff;
+            --bg-card: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            --border-color: #e2e8f0;
+            
+            --brand-primary: #2563eb;
+            --brand-primary-hover: #1d4ed8;
+            --brand-secondary: #4f46e5;
+            --brand-accent: #06b6d4;
+            --brand-success: #10b981;
+            --brand-warning: #f59e0b;
+            --brand-danger: #ef4444;
+
+            --radius-sm: 0.375rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+            --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        }
+
+        /* ダークモード自動対応 */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-primary: #0f172a;
+                --bg-surface: #1e293b;
+                --bg-card: #1e293b;
+                --text-primary: #f8fafc;
+                --text-secondary: #cbd5e1;
+                --text-muted: #64748b;
+                --border-color: #334155;
+            }
+        }
+
+        /* リセット & 基本スタイル */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 1.25rem;
+        }
+
+        /* ヘッダー */
+        header {
+            background-color: var(--bg-surface);
+            border-bottom: 1px solid var(--border-color);
+            padding: 2.5rem 0 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .header-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: rgba(16, 185, 129, 0.15);
+            color: var(--brand-success);
+            font-size: 0.875rem;
+            font-weight: 600;
+            padding: 0.35rem 0.85rem;
+            border-radius: 9999px;
+            margin-bottom: 1rem;
+        }
+
+        .header-badge .dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--brand-success);
+            border-radius: 50%;
+            display: inline-block;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        h1 {
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
+            font-weight: 800;
+            letter-spacing: -0.025em;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.125rem;
+        }
+
+        /* メインコンテンツレイアウト */
+        main {
+            flex: 1;
+            padding-bottom: 3rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 1.5rem;
+        }
+
+        .col-12 { grid-column: span 12; }
+        .col-8 { grid-column: span 12; }
+        .col-6 { grid-column: span 12; }
+        .col-4 { grid-column: span 12; }
+
+        @media (min-width: 768px) {
+            .col-8 { grid-column: span 8; }
+            .col-6 { grid-column: span 6; }
+            .col-4 { grid-column: span 4; }
+        }
+
+        /* カード要素 */
+        .card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-xl);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.75rem;
+        }
+
+        /* 画面情報・ステータス表示 */
+        .info-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0.75rem;
+            background-color: var(--bg-primary);
+            border-radius: var(--radius-md);
+            font-size: 0.95rem;
+        }
+
+        .info-label {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .info-value {
+            font-family: var(--font-mono);
+            font-weight: 700;
+            color: var(--brand-primary);
+        }
+
+        /* カウンター・時計機能 */
+        .display-box {
+            text-align: center;
+            padding: 1.5rem;
+            background-color: var(--bg-primary);
+            border-radius: var(--radius-lg);
+            margin-bottom: 1rem;
+        }
+
+        .big-number {
+            font-size: 3.5rem;
+            font-weight: 800;
+            font-family: var(--font-mono);
+            color: var(--brand-primary);
+            line-height: 1;
+        }
+
+        .clock-display {
+            font-size: 1.75rem;
+            font-weight: 700;
+            font-family: var(--font-mono);
+            letter-spacing: 0.05em;
+            color: var(--text-primary);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        /* ボタン */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.625rem 1.25rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: var(--radius-md);
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            user-select: none;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-primary);
+            color: #ffffff;
+        }
+        .btn-primary:hover { background-color: var(--brand-primary-hover); }
+
+        .btn-secondary {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            border-color: var(--border-color);
+        }
+        .btn-secondary:hover { background-color: var(--border-color); }
+
+        .btn-danger {
+            background-color: var(--brand-danger);
+            color: #ffffff;
+        }
+        .btn-danger:hover { filter: brightness(0.9); }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* フォーム要素テスト */
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 0.375rem;
+            color: var(--text-secondary);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.625rem 0.875rem;
+            font-size: 0.95rem;
+            font-family: inherit;
+            color: var(--text-primary);
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            outline: none;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--brand-primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+        }
+
+        .range-slider {
+            width: 100%;
+            height: 6px;
+            background: var(--border-color);
+            border-radius: 3px;
+            outline: none;
+        }
+
+        /* カラーサンプル パレット */
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 0.75rem;
+        }
+
+        .color-box {
+            border-radius: var(--radius-md);
+            padding: 0.75rem;
+            text-align: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #ffffff;
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* オープンソース & ライセンスセクション */
+        .license-box {
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 1rem;
+            font-family: var(--font-mono);
+            font-size: 0.825rem;
+            color: var(--text-secondary);
+            white-space: pre-wrap;
+            overflow-x: auto;
+            line-height: 1.5;
+        }
+
+        /* フッター */
+        footer {
+            background-color: var(--bg-surface);
+            border-top: 1px solid var(--border-color);
+            padding: 2rem 0;
+            margin-top: auto;
+            text-align: center;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .svg-icon {
+            width: 1.25em;
+            height: 1.25em;
+            fill: currentColor;
+            vertical-align: -0.2em;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ヘッダーエリア -->
+    <header>
+        <div class="container">
+            <div class="header-badge">
+                <span class="dot"></span>
+                <span>GitHub Pages 正常動作中</span>
+            </div>
+            <h1>GitHub Pages テストページ</h1>
+            <p class="subtitle">このページは、ホスティング環境・JavaScript実行・レスポンシブデザイン・CSSスタイルを視覚的に検証するための静的テストページです。</p>
+        </div>
+    </header>
+
+    <!-- メインコンテンツ -->
+    <main class="container">
+        <div class="grid">
+
+            <!-- 1. 動作確認ステータス -->
+            <div class="col-6">
+                <section class="card">
+                    <h2 class="card-title">
+                        <!-- SVGアイコン (完全自作) -->
+                        <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                        環境・解像度ステータス
+                    </h2>
+                    <ul class="info-list">
+                        <li class="info-item">
+                            <span class="info-label">ホスティング</span>
+                            <span class="info-value" id="status-host">GitHub Pages (静的)</span>
+                        </li>
+                        <li class="info-item">
+                            <span class="info-label">JavaScript</span>
+                            <span class="info-value" id="status-js">有効</span>
+                        </li>
+                        <li class="info-item">
+                            <span class="info-label">画面解像度 (Screen)</span>
+                            <span class="info-value" id="screen-size">0 x 0</span>
+                        </li>
+                        <li class="info-item">
+                            <span class="info-label">ウィンドウ領域 (Viewport)</span>
+                            <span class="info-value" id="viewport-size">0 x 0</span>
+                        </li>
+                        <li class="info-item">
+                            <span class="info-label">デバイスピクセル比 (DPR)</span>
+                            <span class="info-value" id="dpr-val">1.0</span>
+                        </li>
+                    </ul>
+                </section>
+            </div>
+
+            <!-- 2. リアルタイム日時・経過時間 -->
+            <div class="col-6">
+                <section class="card">
+                    <h2 class="card-title">
+                        <svg class="svg-icon" viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+                        リアルタイム日時 (JS動作検証)
+                    </h2>
+                    <div class="display-box">
+                        <div class="clock-display" id="clock">00:00:00</div>
+                        <div style="font-size: 0.875rem; color: var(--text-muted); margin-top: 0.5rem;" id="date-display">2026-00-00</div>
+                    </div>
+                    <ul class="info-list">
+                        <li class="info-item">
+                            <span class="info-label">ページ滞在時間</span>
+                            <span class="info-value" id="uptime-counter">0 秒</span>
+                        </li>
+                    </ul>
+                </section>
+            </div>
+
+            <!-- 3. インタラクティブ・クリックカウンター -->
+            <div class="col-6">
+                <section class="card">
+                    <h2 class="card-title">
+                        <svg class="svg-icon" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                        インタラクティブ・カウンター
+                    </h2>
+                    <div class="display-box">
+                        <div class="big-number" id="counter-value">0</div>
+                    </div>
+                    <div class="button-group" style="justify-content: center;">
+                        <button type="button" class="btn btn-primary" id="btn-increase">+ 加算</button>
+                        <button type="button" class="btn btn-secondary" id="btn-decrease">- 減算</button>
+                        <button type="button" class="btn btn-danger" id="btn-reset">リセット</button>
+                    </div>
+                </section>
+            </div>
+
+            <!-- 4. UIフォーム & スタイル要素テスト -->
+            <div class="col-6">
+                <section class="card">
+                    <h2 class="card-title">
+                        <svg class="svg-icon" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+                        フォーム &amp; UIテスト
+                    </h2>
+                    <div class="form-group">
+                        <label class="form-label" for="sample-input">テキスト入力</label>
+                        <input type="text" id="sample-input" class="form-control" placeholder="入力値をテスト...">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="sample-range">レンジスライダー: <span id="range-value" class="info-value">50</span></label>
+                        <input type="range" id="sample-range" class="range-slider" min="0" max="100" value="50">
+                    </div>
+                </section>
+            </div>
+
+            <!-- 5. カラーサンプルパレット -->
+            <div class="col-12">
+                <section class="card">
+                    <h2 class="card-title">
+                        <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L4.35 19.4c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l1.9-1.9C9.2 19.54 10.55 20 12 20c4.97 0 9-4.03 9-9s-4.03-9-9-9zm0 15c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/></svg>
+                        CSS カラーパレット検証
+                    </h2>
+                    <div class="color-grid">
+                        <div class="color-box" style="background-color: var(--brand-primary);">Primary</div>
+                        <div class="color-box" style="background-color: var(--brand-secondary);">Secondary</div>
+                        <div class="color-box" style="background-color: var(--brand-accent);">Accent</div>
+                        <div class="color-box" style="background-color: var(--brand-success);">Success</div>
+                        <div class="color-box" style="background-color: var(--brand-warning);">Warning</div>
+                        <div class="color-box" style="background-color: var(--brand-danger);">Danger</div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- 6. 著作権・オープンソース権利表記テンプレート -->
+            <div class="col-12">
+                <section class="card">
+                    <h2 class="card-title">
+                        <svg class="svg-icon" viewBox="0 0 24 24"><path d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"/></svg>
+                        権利表記・ライセンス情報 (MIT License テンプレート)
+                    </h2>
+                    <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 1rem;">
+                        本ページおよび本リポジトリ内のコードはすべてオリジナルであり、サードパーティ製ライブラリ・画像・著作権保護フォントへの依存はありません。自由にいじる・改変・商用利用が可能です。
+                    </p>
+                    <div class="license-box">
+MIT License
+
+Copyright (c) 2026 Test Page Contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+                    </div>
+                </section>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- フッター -->
+    <footer>
+        <div class="container">
+            <p>GitHub Pages Test Static Page &bull; Created with pure HTML/CSS/JS</p>
+            <p style="margin-top: 0.25rem; font-size: 0.8rem; color: var(--text-muted);">
+                完全自己完結型コード / 外部依存なし / 著作権フリー
+            </p>
+        </div>
+    </footer>
+
+    <!-- 純粋なJavaScript (ES6+) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- 1. 画面サイズ・解像度モニター ---
+            const updateScreenInfo = () => {
+                const screenEl = document.getElementById('screen-size');
+                const viewportEl = document.getElementById('viewport-size');
+                const dprEl = document.getElementById('dpr-val');
+
+                if (screenEl) screenEl.textContent = `${window.screen.width} x ${window.screen.height}`;
+                if (viewportEl) viewportEl.textContent = `${window.innerWidth} x ${window.innerHeight}`;
+                if (dprEl) dprEl.textContent = window.devicePixelRatio ? window.devicePixelRatio.toFixed(2) : '1.0';
+            };
+
+            updateScreenInfo();
+            window.addEventListener('resize', updateScreenInfo);
+
+            // --- 2. リアルタイム時計＆滞在時間 ---
+            const clockEl = document.getElementById('clock');
+            const dateEl = document.getElementById('date-display');
+            const uptimeEl = document.getElementById('uptime-counter');
+            let startTime = Date.now();
+
+            const updateClock = () => {
+                const now = new Date();
+
+                // 時刻フォーマット
+                const hours = String(now.getHours()).padStart(2, '0');
+                const minutes = String(now.getMinutes()).padStart(2, '0');
+                const seconds = String(now.getSeconds()).padStart(2, '0');
+                if (clockEl) clockEl.textContent = `${hours}:${minutes}:${seconds}`;
+
+                // 日付フォーマット
+                const year = now.getFullYear();
+                const month = String(now.getMonth() + 1).padStart(2, '0');
+                const date = String(now.getDate()).padStart(2, '0');
+                const days = ['日', '月', '火', '水', '木', '金', '土'];
+                const dayName = days[now.getDay()];
+                if (dateEl) dateEl.textContent = `${year}年${month}月${date}日 (${dayName})`;
+
+                // 滞在時間
+                const elapsedSeconds = Math.floor((Date.now() - startTime) / 1000);
+                if (uptimeEl) uptimeEl.textContent = `${elapsedSeconds} 秒`;
+            };
+
+            setInterval(updateClock, 1000);
+            updateClock();
+
+            // --- 3. インタラクティブ・カウンター機能 ---
+            let count = 0;
+            const counterValEl = document.getElementById('counter-value');
+            const btnIncrease = document.getElementById('btn-increase');
+            const btnDecrease = document.getElementById('btn-decrease');
+            const btnReset = document.getElementById('btn-reset');
+
+            const renderCounter = () => {
+                if (counterValEl) counterValEl.textContent = count;
+            };
+
+            if (btnIncrease) {
+                btnIncrease.addEventListener('click', () => {
+                    count++;
+                    renderCounter();
+                });
+            }
+
+            if (btnDecrease) {
+                btnDecrease.addEventListener('click', () => {
+                    count--;
+                    renderCounter();
+                });
+            }
+
+            if (btnReset) {
+                btnReset.addEventListener('click', () => {
+                    count = 0;
+                    renderCounter();
+                });
+            }
+
+            // --- 4. フォーム要素のテストインタラクション ---
+            const rangeInput = document.getElementById('sample-range');
+            const rangeValueEl = document.getElementById('range-value');
+
+            if (rangeInput && rangeValueEl) {
+                rangeInput.addEventListener('input', (e) => {
+                    rangeValueEl.textContent = e.target.value;
+                });
+            }
+        });
+    </script>
+</body>
+</html>
